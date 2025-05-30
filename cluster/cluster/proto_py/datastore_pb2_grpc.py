@@ -37,7 +37,7 @@ class DatastoreServiceStub(object):
         self.StrSet = channel.unary_unary(
                 '/datastore.DatastoreService/StrSet',
                 request_serializer=datastore__pb2.KeyValue.SerializeToString,
-                response_deserializer=datastore__pb2.BoolReply.FromString,
+                response_deserializer=datastore__pb2.IntReply.FromString,
                 _registered_method=True)
         self.StrGet = channel.unary_unary(
                 '/datastore.DatastoreService/StrGet',
@@ -188,7 +188,7 @@ def add_DatastoreServiceServicer_to_server(servicer, server):
             'StrSet': grpc.unary_unary_rpc_method_handler(
                     servicer.StrSet,
                     request_deserializer=datastore__pb2.KeyValue.FromString,
-                    response_serializer=datastore__pb2.BoolReply.SerializeToString,
+                    response_serializer=datastore__pb2.IntReply.SerializeToString,
             ),
             'StrGet': grpc.unary_unary_rpc_method_handler(
                     servicer.StrGet,
@@ -277,7 +277,7 @@ class DatastoreService(object):
             target,
             '/datastore.DatastoreService/StrSet',
             datastore__pb2.KeyValue.SerializeToString,
-            datastore__pb2.BoolReply.FromString,
+            datastore__pb2.IntReply.FromString,
             options,
             channel_credentials,
             insecure,

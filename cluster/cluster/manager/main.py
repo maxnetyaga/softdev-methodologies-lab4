@@ -1,14 +1,20 @@
 from contextlib import asynccontextmanager
+import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from .manager import Manager, Node, NodeSettings
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global ds
     ds = Manager()
-    node = Node(NodeSettings(address='0.0.0.0', port=9063, role='shard'))
+    node = Node(NodeSettings(address='0.0.0.0', port=9063))
     ds.add_node(node)
     app.state
     yield

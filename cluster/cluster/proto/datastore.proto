@@ -3,7 +3,7 @@ syntax = "proto3";
 package datastore;
 
 service DatastoreService {
-  rpc StrSet(KeyValue) returns (BoolReply);
+  rpc StrSet(KeyValue) returns (IntReply);
   rpc StrGet(Key) returns (StringReply);
 
   rpc LPush(KeyMultiValue) returns (IntReply);

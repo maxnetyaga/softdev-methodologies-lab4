@@ -113,7 +113,7 @@ def test_memory_budget_():
     ds = Datastore()
 
     target_bytes = humanfriendly.parse_size('1G')
-    sharding = 0.05
+    sharding = 0.005
     shard_size = int(target_bytes * sharding)
 
     keys = []
@@ -130,20 +130,17 @@ def test_memory_budget_():
         elif typ == 1:
             ds.lpush(key, gen_str(shard_size // 2), gen_str(shard_size // 2))
         elif typ == 2:
-            pass
             ds.sadd(key, gen_str(shard_size // 2), gen_str(shard_size // 2))
         elif typ == 3:
-            pass
             ds.hset(key, 'field', gen_str(shard_size))
         elif typ == 4:
-            pass
             ds.zadd(key, {gen_str(shard_size): float(i)})
 
         keys.append(key)
         i += 1
 
     print(
-        f'Created {len(keys)} keys consuming {humanfriendly.format_size(ds.size)} bytes'
+        f'Created {len(keys)} keys consuming {humanfriendly.format_size(ds.size)}'
     )
 
     # REPLACE
@@ -154,13 +151,10 @@ def test_memory_budget_():
         elif typ == 1:
             ds.rpush(key, f'tail_{i}')
         elif typ == 2:
-            pass
             ds.sadd(key, f'new_{i}')
         elif typ == 3:
-            pass
             ds.hset(key, 'field', f'replaced_{i}')
         elif typ == 4:
-            pass
             ds.zadd(key, {f'newm{i}': float(i + 0.5)})
 
     # DELETE

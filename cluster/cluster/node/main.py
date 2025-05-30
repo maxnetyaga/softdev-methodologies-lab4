@@ -20,7 +20,7 @@ class DatastoreService(datastore_pb2_grpc.DatastoreServiceServicer):
         self.node = node
 
     def StrSet(self, request: datastore_pb2.KeyValue, context):
-        return datastore_pb2.BoolReply(
+        return datastore_pb2.IntReply(
             result=node.ds.strset(request.key, request.value)
         )
 
