@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package datastore;
+
+service DatastoreService {
+  rpc StrSet(KeyValue) returns (BoolReply);
+  rpc StrGet(Key) returns (StringReply);
+
+  rpc LPush(KeyMultiValue) returns (IntReply);
+  rpc RPush(KeyMultiValue) returns (IntReply);
+  rpc LRange(RangeRequest) returns (StringListReply);
+
+  rpc Delete(Key) returns (IntReply);
+
+  rpc SAdd(KeyMultiValue) returns (IntReply);
+  rpc SMembers(Key) returns (StringSetReply);
+
+  rpc HSet(HSetRequest) returns (IntReply);
+  rpc HGet(HashField) returns (StringReply);
+  rpc HGetAll(Key) returns (HashMapReply);
+
+  rpc ZAdd(ZAddRequest) returns (IntReply);
+  rpc ZRange(ZRangeRequest) returns (ZRangeReply);
+}
+
+// ------------------------ MESSAGES ------------------------
+
+message Key { string key = 1; }
+
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
+
+message KeyMultiValue {
+  string key = 1;
+  repeated string values = 2;
+}
+
+message RangeRequest {
+  string key = 1;
+  int32 start = 2;
+  int32 end = 3;
+}
+
+message BoolReply { bool result = 1; }
+
+message IntReply { int32 result = 1; }
+
+message StringReply { string result = 1; }
+
+message StringListReply { repeated string results = 1; }
+
+message StringSetReply { repeated string results = 1; }
+
+message HashField {
+  string key = 1;
+  string field = 2;
+}
+
+message HSetEntry {
+  string field = 1;
+  string value = 2;
+}
+
+message HSetRequest {
+  string key = 1;
+  string field = 2;                // optional
+  string value = 3;                // optional
+  repeated HSetEntry mapping = 4; // alternative
+}
+
+message HashMapReply { repeated HSetEntry entries = 1; }
+
+message ZAddEntry {
+  string member = 1;
+  double score = 2;
+}
+
+message ZAddRequest {
+  string key = 1;
+  repeated ZAddEntry entries = 2;
+}
+
+message ZRangeRequest {
+  string key = 1;
+  int32 start = 2;
+  int32 end = 3;
+  bool withscores = 4;
+}
+
+message ZItem {
+  string member = 1;
+  double score = 2;
+}
+
+message ZRangeReply { repeated ZItem items = 1; }
